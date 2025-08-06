@@ -1,6 +1,9 @@
 from django.db import models
 from django.conf import settings 
 from django.utils import timezone
+from wagtail.models import Page
+from wagtail.fields import RichTextField
+from wagtail.admin.panels import FieldPanel
 
 
 class Post(models.Model):
@@ -35,3 +38,11 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.text
+    
+
+class HomePage(Page):
+    intro = RichTextField(blank=True)
+
+    content_panels = Page.content_panels + [
+        FieldPanel('intro')
+    ]
