@@ -19,6 +19,10 @@ from django.urls import path, include
 from django.contrib.auth import views
 from django.contrib.auth import views as auth_views  # only for LoginView
 from blog.views import logout_view  # import your custom logout view
+from wagtail.admin import urls as wagtailadmin_urls
+from wagtail import urls as wagtail_urls
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,4 +30,6 @@ urlpatterns = [
     # path('accounts/logout/', views.LogoutView.as_view(next_page='/'), name='logout'),
     path('accounts/logout/', logout_view, name='logout'),
     path('', include('blog.urls')),  # Include the blog app's URLs
-]
+    path('cms/', include(wagtailadmin_urls)),
+    path('pages/', include(wagtail_urls)),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
